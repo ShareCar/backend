@@ -1,4 +1,4 @@
-package pt.sharecar.entity;
+package pt.sharecar.route;
 
 import jakarta.persistence.Embeddable;
 
@@ -57,5 +57,5 @@ public final class Coordinate {
                 ", longitude=" + longitude +
                 '}';
     }
-    
+
 }

@@ -1,9 +1,14 @@
-package pt.sharecar.entity;
+package pt.sharecar.route;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import net.postgis.jdbc.PGgeometry;
+import net.postgis.jdbc.geometry.Geometry;
+import net.postgis.jdbc.geometry.Polygon;
+import org.hibernate.annotations.Type;
+
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -17,13 +22,14 @@ public class Route implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private List<Coordinate> coordinates;
+    @JsonIgnore
+    @Column(columnDefinition = "Geometry")
+    private PGgeometry coordinates;
 
     public Route() {
     }
 
-    public Route(String description, List<Coordinate> coordinates) {
+    public Route(String description, PGgeometry coordinates) {
         this.description = description;
         this.coordinates = coordinates;
     }
@@ -40,11 +46,11 @@ public class Route implements Serializable {
         this.description = description;
     }
 
-    public List<Coordinate> getCoordinates() {
+    public PGgeometry getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(List<Coordinate> coordinates) {
+    public void setCoordinates(PGgeometry coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -53,12 +59,12 @@ public class Route implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Route route = (Route) o;
-        return Objects.equals(id, route.id) && Objects.equals(description, route.description) && Objects.equals(coordinates, route.coordinates);
+        return Objects.equals(id, route.id) && Objects.equals(description, route.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, coordinates);
+        return Objects.hash(id, description);
     }
 
     @Override
@@ -66,7 +72,6 @@ public class Route implements Serializable {
         return "Route{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", coordinates=" + coordinates +
                 '}';
     }
 }
