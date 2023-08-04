@@ -22,9 +22,6 @@ public class Route implements Serializable {
     @Column(columnDefinition = "Geometry")
     private Geometry coordinates;
 
-    public Route() {
-    }
-
     public Route(String description, Geometry coordinates) {
         this.description = description;
         this.coordinates = coordinates;
