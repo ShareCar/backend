@@ -2,11 +2,7 @@ package pt.sharecar.route;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import net.postgis.jdbc.PGgeometry;
-import net.postgis.jdbc.geometry.Geometry;
-import net.postgis.jdbc.geometry.Polygon;
-import org.hibernate.annotations.Type;
-
+import org.locationtech.jts.geom.Geometry;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -24,12 +20,12 @@ public class Route implements Serializable {
 
     @JsonIgnore
     @Column(columnDefinition = "Geometry")
-    private PGgeometry coordinates;
+    private Geometry coordinates;
 
     public Route() {
     }
 
-    public Route(String description, PGgeometry coordinates) {
+    public Route(String description, Geometry coordinates) {
         this.description = description;
         this.coordinates = coordinates;
     }
@@ -46,11 +42,11 @@ public class Route implements Serializable {
         this.description = description;
     }
 
-    public PGgeometry getCoordinates() {
+    public Geometry getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(PGgeometry coordinates) {
+    public void setCoordinates(Geometry coordinates) {
         this.coordinates = coordinates;
     }
 

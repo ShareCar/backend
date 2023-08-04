@@ -4,30 +4,30 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import net.postgis.jdbc.PGgeometry;
-import net.postgis.jdbc.geometry.LinearRing;
-import net.postgis.jdbc.geometry.Point;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 
 import java.net.URI;
 import java.util.List;
 
 @Path("/routes")
-
 public class RouteResource {
 
     @Inject
     RouteRepository repository;
 
-    private static PGgeometry createPGGeometry(double[][] coordinates) {
+    private static Geometry createPGGeometry(double[][] coordinates) {
+        GeometryFactory factory = new GeometryFactory();
         Point[] points = new Point[coordinates.length];
         for (int i = 0; i < coordinates.length; i++) {
             if (coordinates[i].length != 2) {
                 throw new IllegalArgumentException("Invalid coordinate format: " + coordinates[i]);
             }
-            points[i] = new Point(coordinates[i][0], coordinates[i][1]);
+            points[i] = factory.createPoint(new Coordinate(coordinates[i][1], coordinates[i][0]));
         }
-        LinearRing outerRing = new LinearRing(points);
-        return new PGgeometry(outerRing);
+        return factory.createMultiPoint(points);
     }
 
     @GET
