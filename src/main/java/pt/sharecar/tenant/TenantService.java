@@ -3,6 +3,7 @@ package pt.sharecar.tenant;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import pt.sharecar.messages.AppMessages;
 
 @ApplicationScoped
 public class TenantService {
@@ -10,10 +11,13 @@ public class TenantService {
     @Inject
     TenantRepository repository;
 
+    @Inject
+    AppMessages messages;
+
     @Transactional
     public void createSchema(String tenantName) throws Exception {
         if (!isValidTenantName(tenantName) || repository.schemaExists(tenantName)) {
-            throw new IllegalArgumentException("O nome do tenant é inválido ou já existe.");
+            throw new IllegalArgumentException(messages.invalidTenant());
         }
 
         try {
