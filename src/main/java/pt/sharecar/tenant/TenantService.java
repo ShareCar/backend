@@ -17,16 +17,17 @@ public class TenantService {
     @Transactional
     public void createSchema(String tenantName) throws Exception {
         if (!isValidTenantName(tenantName) || repository.schemaExists(tenantName)) {
-            throw new IllegalArgumentException(messages.invalidTenant());
+            throw new IllegalArgumentException(messages.error_invalid_tenant());
         }
 
         try {
             repository.createNewSchema(tenantName);
         } catch (Exception e) {
-            throw new Exception("Erro ao criar o esquema para o tenant: " + tenantName, e);
+            throw new Exception(messages.error_create_schema(tenantName), e);
         }
     }
 
+    //TODO: Improve the regex, look for postgresql schema name rules
     private boolean isValidTenantName(String tenantName) {
         return tenantName.matches("^[a-zA-Z0-9]*$");
     }

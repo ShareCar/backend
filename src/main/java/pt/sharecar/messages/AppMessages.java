@@ -7,6 +7,9 @@ import io.quarkus.qute.i18n.MessageBundle;
 public interface AppMessages {
 
     @Message
-    String invalidTenant();
+    String error_invalid_tenant();
+
+    @Message
+    String error_create_schema(String name);
 
 }
